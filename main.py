@@ -25,7 +25,7 @@ bot = Bot(token=env.str("BOT_TOKEN"))
 dp = Dispatcher(bot, storage=MemoryStorage())
 
 
-async def on_startup(dp):
+async def on_startup(_):
     print("Bot started")
 
 
@@ -39,7 +39,6 @@ def distance_between_points(point1, point2) -> float:
 def menu_keyboards() -> types.ReplyKeyboardMarkup:
     keyboards = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboards.add(types.KeyboardButton(text="🛍 Buyurtma berish"))
-    keyboards.add(types.KeyboardButton(text="🛍 Interaktiv menu"))
     keyboards.add(types.KeyboardButton(text="✍️ Talab va Takliflar"), types.KeyboardButton(text="🏘 Barcha filiallar"))
     keyboards.add(types.KeyboardButton(text="ℹ️ Biz haqimizda"), types.KeyboardButton(text="📋 Mening buyurtmalarim"))
     keyboards.add(types.KeyboardButton(text="⚙️ Sozlamalar"))
@@ -196,7 +195,7 @@ async def get_branch(message: types.Message):
                          reply_markup=menu_keyboards())
 
 
-@dp.message_handler(Text("🛍 Interaktiv menu"))
+@dp.message_handler(Text("🛍 Buyurtma berish"))
 async def get_branch(message: types.Message):
     chat_id = message.chat.id
     await message.answer("Interaktiv menu orqali buyurtma bering: ",
@@ -205,12 +204,12 @@ async def get_branch(message: types.Message):
                                                                                           url=f"https://food-delivery-react-test.netlify.app/?{chat_id}"))))
 
 
-# Buyurtma uchun Handler
-@dp.message_handler(Text("🛍 Buyurtma berish"))
-async def get_branch(message: types.Message):
-    keyboard = menu_orders()
-    await message.reply("Salom! Mening fast food botimizga xush kelibsiz. Iltimos, filialni tanlang:",
-                        reply_markup=keyboard)
+# # Buyurtma uchun Handler
+# @dp.message_handler(Text("🛍 Buyurtma berish"))
+# async def get_branch(message: types.Message):
+#     keyboard = menu_orders()
+#     await message.reply("Salom! Mening fast food botimizga xush kelibsiz. Iltimos, filialni tanlang:",
+#                         reply_markup=keyboard)
 
 # olib ketish uchun handler
 @dp.message_handler(Text("🏃 Olib ketish"))
